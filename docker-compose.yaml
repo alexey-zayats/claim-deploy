@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  claim-form:
+    container_name: claim-form
+    image: aazayats/claim-form:latest
+    restart: unless-stopped
+    networks:
+      - local
+    ports:
+      - "8081:80"
+
+  claim-handler:
+    container_name: claim-handler
+    image: aazayats/claim-handler:latest
+    restart: unless-stopped
+    command: ["handle"]
+    env_file:
+      - ${ENV:-local}/claim-handler.env
+    networks:
+      - local
+    ports:
+      - "8082:80"
+
+networks:
+  local:
