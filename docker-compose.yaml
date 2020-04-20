@@ -2,6 +2,21 @@ version: "3.7"
 
 services:
 
+  claim-nginx:
+    container_name: claim-nginx
+    restart: unless-stopped
+    image: staticfloat/nginx-certbot
+    ports:
+      - ${HTTP:-80}:80/tcp
+      - ${HTTPS:-443}:443/tcp
+    environment:
+      CERTBOT_EMAIL: alexey.zayats@gmail.com
+    volumes:
+      - ./${ENV:-local}/conf.d:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+    networks:
+      - local
+
   claim-form:
     container_name: claim-form
     image: aazayats/claim-form:latest
@@ -22,6 +37,9 @@ services:
       - local
     ports:
       - "8082:80"
+
+volumes:
+  letsencrypt:
 
 networks:
   local:
