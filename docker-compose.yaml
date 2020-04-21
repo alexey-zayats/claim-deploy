@@ -23,8 +23,6 @@ services:
     restart: unless-stopped
     networks:
       - local
-    ports:
-      - "8081:80"
 
   claim-handler:
     container_name: claim-handler
@@ -35,8 +33,6 @@ services:
       - ${ENV:-local}/claim-handler.env
     networks:
       - local
-    ports:
-      - "8082:80"
 
 volumes:
   letsencrypt:
